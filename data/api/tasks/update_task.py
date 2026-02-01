@@ -17,5 +17,3 @@ async def update_task(task_id: str, body: UpdateTaskRequest) -> YouGileAPIRespon
         response.update({"status": status})
 
     return response
-
-# TODO: create Prompts that will help to build request using tool (for instance, to build body and etc)

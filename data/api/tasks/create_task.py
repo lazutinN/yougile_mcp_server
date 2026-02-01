@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Dict, List
-from typing_extensions import TypedDict
+from typing import Any, Dict, List, Required, TypedDict
 
 from data.api.helper import async_request
 from data.api.base_api import YOUGILE_HOST, YouGileAPIResponse
@@ -48,8 +47,8 @@ class DealPayload(TypedDict):
     customFields: Dict[str, Any]
 
 
-class TaskRequestBodyPayload(TypedDict):
-    title: str
+class TaskRequestBodyPayload(TypedDict, total=False):
+    title: Required[str]
     columnId: str
     description: str
     archived: bool
@@ -68,9 +67,11 @@ class TaskRequestBodyPayload(TypedDict):
     deal: DealPayload
 
 
-async def create_task(task_id: str, body: TaskRequestBodyPayload) -> YouGileAPIResponse:
-    uri = f"{YOUGILE_HOST}/tasks/{task_id}"
-    method = AllowedMethods.PUT.value
+async def create_task(body: TaskRequestBodyPayload) -> YouGileAPIResponse:
+    # MCP-Client TODO: prompt for a new task creation should contain requiremts for the request to contain at least: "title, 
+    # columnID (prompt should be enriched with the static columnId value")
+    uri = f"{YOUGILE_HOST}/tasks"
+    method = AllowedMethods.POST.value
     res, status = await async_request(uri, method=method, json=body)
     response = YouGileAPIResponse(
         result=res,

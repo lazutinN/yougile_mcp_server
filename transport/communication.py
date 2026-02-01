@@ -8,6 +8,7 @@ mcp = FastMCP("YouGile MCP Server",json_response=True)
 async def inject_primitives():
     import data.primitives.tools.tools
     import data.primitives.resources.resource as resource
+    import data.primitives.prompts.prompt
 
     if not resource.SPEC_PWD.exists():
         spec = await resource.async_request(resource.OPENAPI_SPEC_URL, "get")

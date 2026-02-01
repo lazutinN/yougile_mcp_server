@@ -31,7 +31,9 @@ async def async_request(uri: str, method: str, **kwargs):
             result = await res.text()
     return result
 
-@mcp.resource(uri=f"resource://{SPEC_PWD}")
+@mcp.resource(uri=f"resource://{SPEC_PWD}",
+              name="OpenAPI",
+              description="Retrieves the YouGile OpenAPI spec")
 async def openapi_spec():
     spec_pwd = os.path.abspath(SPEC_PWD)
 
